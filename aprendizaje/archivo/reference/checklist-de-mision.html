@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referencia — Checklist de misión</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+  /* Ajustes propios de esta referencia: densidad de cheatsheet, una carilla. */
+  .page { max-width: 44rem; }
+  .fases { font-family: var(--sans); font-size: 0.9rem; }
+  .fases td:first-child { font-family: var(--mono); white-space: nowrap; }
+  .fases td:last-child { font-family: var(--mono); font-size: 0.85em; color: var(--ink-soft); }
+  .ritual { border-left: 4px solid var(--accent); }
+  .marco { display: grid; gap: 0.9rem; grid-template-columns: 1fr; }
+  @media (min-width: 34rem) { .marco { grid-template-columns: 1fr 1fr; } }
+  .marco .card { margin: 0; }
+  .marco h3 { margin-top: 0; }
+  ol.pasos { padding-left: 1.2rem; font-family: var(--sans); font-size: 0.92rem; }
+  @media print { .page { padding-top: 0.5rem; } .card { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="lesson-header">
+  <p class="kicker">Referencia · Workflow de AI Coding</p>
+  <h1>Checklist de misión</h1>
+  <p class="lede">De la llegada al repo al cierre del chat. Una carilla, para tener al lado del monitor.</p>
+</header>
+
+<h2>1 · Apertura — tres preguntas antes de tocar nada</h2>
+
+<div class="card ritual">
+  <ol class="pasos">
+    <li><strong>¿El agente y yo conocemos este repo?</strong> Si no existe <code>AGENTS.md</code> → <span class="skill">/audit</span>. Un <code>CLAUDE.md</code> de configuración <em>no cuenta</em> como contexto del repo.</li>
+    <li><strong>¿Es monorepo?</strong> Entonces <code>AGENTS.md</code> por workspace, más el de la raíz. <code>CLAUDE.md</code> de una línea apuntando al gordo.</li>
+    <li><strong>¿Qué tipo de trabajo es?</strong> Proyecto nuevo → <span class="skill">/grill-me</span>. Repo existente → <span class="skill">/audit</span> primero. Feature en repo documentado → <span class="skill">/grill-with-docs</span>. Solo un bug → <span class="skill">/debug</span> directo, sin scope ni spec.</li>
+  </ol>
+</div>
+
+<h2>2 · El ciclo — y el archivo que deja cada fase</h2>
+
+<p>La regla que aclara todo: <em>¿qué archivo queda escrito después de este paso?</em></p>
+
+<table class="fases">
+  <tr><th>Fase</th><th>Para qué</th><th>Deja escrito</th></tr>
+  <tr><td>/grill-me</td><td>Que los dos entendamos lo mismo</td><td>—  (o CONTEXT.md con docs)</td></tr>
+  <tr><td>/scope</td><td>El QUÉ construir, plan vivo</td><td>docs/scope/</td></tr>
+  <tr><td>/architect</td><td>El CÓMO: decisiones de peso</td><td>docs/specs/</td></tr>
+  <tr><td>/audit</td><td>Contexto del repo (1 vez)</td><td>AGENTS.md</td></tr>
+  <tr><td>/develop</td><td>Construir desde la spec</td><td>código</td></tr>
+  <tr><td>/check verify</td><td>Manejar la app real vs. criterios</td><td>docs/reviews/</td></tr>
+  <tr><td>/test</td><td>Blindar lo recién construido</td><td>tests</td></tr>
+  <tr><td>/check review</td><td>Code review, modelo nuevo</td><td>docs/reviews/</td></tr>
+  <tr><td>/document</td><td>Texto humano desde el diff real</td><td>PR / changelog</td></tr>
+  <tr><td>/sync</td><td>Reconciliar el repo al cerrar</td><td>AGENTS.md + scope</td></tr>
+</table>
+
+<p><strong>Desvíos:</strong> <span class="skill">/debug</span> (causa desconocida) · <span class="skill">/diagnosing-bugs</span> (bug duro o de rendimiento) · <span class="skill">/tdd</span> (lógica delicada, dentro de /develop) · <span class="skill">/prototype</span> (duda de diseño, descartable).</p>
+
+<p><strong>Profundidad según la etapa:</strong> prototipo = solo <code>/develop</code> · alpha = + <code>verify</code> · beta = + <code>test</code> · producción = + <code>review</code> + <code>document</code>. <code>/sync</code> siempre.</p>
+
+<h2>3 · Fronteras — qué hago con el contexto</h2>
+
+<div class="marco">
+  <div class="card">
+    <h3>Al terminar una fase</h3>
+    <ol class="pasos">
+      <li><strong>Seguir</strong> — la fase que viene necesita el contexto vivo y el chat está liviano.</li>
+      <li><strong>/clear + chat nuevo</strong> — el estado ya está en archivos. <em>El caso normal.</em></li>
+      <li><strong>/handoff</strong> — hay contexto valioso que todavía no está escrito.</li>
+      <li><strong>Subagente</strong> — tarea pesada que ensuciaría el chat.</li>
+      <li><strong>/compact</strong> — último recurso; lo comprimido degrada.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>Señales de corte</h3>
+    <ul class="pasos" style="list-style: none; padding-left: 0;">
+      <li>▸ Chat cerca de <strong>~100k tokens</strong>.</li>
+      <li>▸ Cambia el tipo de trabajo (planear → construir → probar).</li>
+      <li>▸ El agente empieza a olvidar decisiones ya tomadas.</li>
+      <li>▸ Un chat = una misión. Terminó → <code>/sync</code> → cerrar.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>4 · Cierre — la orden de trabajo</h2>
+
+<div class="card ritual">
+  <p style="margin-top:0"><span class="skill">/sync</span> <strong>nunca se salta.</strong> Reconcilia <code>AGENTS.md</code> con lo que el repo realmente es ahora, actualiza el scope con la evidencia y marca specs vencidas.</p>
+  <p style="margin-bottom:0"><strong>Prueba de que pasó:</strong> hay un commit <code>/sync:</code> en el log. Si no está, la misión no cerró: solo dejaste de trabajar.</p>
+</div>
+
+<div class="note no-print">Los tres rituales de puerta (<strong>audit al llegar</strong>, <strong>decidir el contexto al cortar</strong>, <strong>sync al cerrar</strong>) son los que menos viajan entre proyectos: están en la entrada y la salida, justo donde el apuro por arrancar y el alivio de terminar los empujan afuera. Si un repo tuyo no tiene <code>AGENTS.md</code> o no tiene commits <code>/sync:</code>, ya sabes cuál se te escapó.</div>
+
+<footer class="lesson-footer no-print">
+  <p><a href="../lessons/0002-mision-completa.html">Lección 0002: simulador de misión</a> · <a href="que-skill-cuando.html">¿Qué skill cuándo?</a> · <a href="../../../PLAYBOOK.md">PLAYBOOK (fuente de verdad)</a></p>
+</footer>
+
+</div>
+</body>
+</html>

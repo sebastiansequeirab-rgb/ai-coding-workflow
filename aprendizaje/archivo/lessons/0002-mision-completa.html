@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lección 0002 — Simulador de misión completa</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="page">
+
+<header class="lesson-header">
+  <p class="kicker">Lección 0002 · Workflow de AI Coding</p>
+  <h1>Simulador de misión completa</h1>
+  <p class="lede">Un repo ajeno, una feature, doce decisiones. De la llegada al cierre, sin mirar el playbook.</p>
+</header>
+
+<h2>El briefing</h2>
+
+<p>La <a href="0001-que-skill-cuando.html">lección 0001</a> entrenaba <em>reconocer</em>: ante una situación suelta, qué skill. Eso ya lo tienes. Esta entrena lo que sigue: <strong>ejecutar la cadena completa</strong>. Cada decisión deja un archivo escrito, y la siguiente decisión depende de ese archivo.</p>
+
+<div class="card">
+  <p><strong>El proyecto:</strong> te contratan para agregar una feature a <code>~/stock-planta</code>, una app que maneja el stock de insumos de una planta y lleva dos años en producción. No la escribiste tú. El cliente quiere <em>“que me avise cuando un insumo baje del mínimo”</em>. Es producción, así que va el ciclo completo.</p>
+</div>
+
+<h3>Reglas</h3>
+
+<ul>
+  <li><strong>Fallar no te saca del juego.</strong> Ves la consecuencia real y vuelves a decidir. La misión siempre termina. Esa es la victoria.</li>
+  <li><strong>El puntaje cuenta los pasos que resuelves a la primera.</strong> Tres pasos valen doble: son tus tres huecos del <a href="../../learning-records/0002-revision-en-campo-proyectos-a-y-b.md">registro 0002</a>, puestos a propósito. No te digo cuáles.</li>
+  <li><strong>Mira el panel de estado</strong> arriba de cada escena: los archivos que se van escribiendo y los tokens del chat. Hay una decisión que solo sale bien mirándolo.</li>
+  <li>Nada de abrir el <a href="../../../PLAYBOOK.md">PLAYBOOK</a> ni el <a href="../reference/que-skill-cuando.html">cheatsheet</a> durante la misión. Después sí.</li>
+</ul>
+
+<h2>La misión</h2>
+
+<div class="card">
+  <div class="sim" id="sim"></div>
+</div>
+
+<h2>Debrief</h2>
+
+<p>Toda la misión se reduce a tres momentos que no dependen del proyecto sino de ti:</p>
+
+<table>
+  <tr><th>Momento</th><th>Ritual</th><th>Prueba de que pasó</th></tr>
+  <tr><td>Al llegar a un repo</td><td><span class="skill">/audit</span> antes que nada</td><td>Existe <code>AGENTS.md</code> (uno por workspace si es monorepo)</td></tr>
+  <tr><td>Al cerrar una fase</td><td>Decidir qué haces con el contexto</td><td>Chat nuevo con todo ya escrito en archivos</td></tr>
+  <tr><td>Al terminar la misión</td><td><span class="skill">/sync</span> antes de cerrar</td><td>Un commit <code>/sync:</code> en el log</td></tr>
+</table>
+
+<p>Los tres están en la <strong>puerta</strong>: uno al entrar, uno al cortar, uno al salir. Justo donde el apuro por arrancar y el alivio de terminar los empujan afuera. Por eso son los que menos viajan entre proyectos: en Proyecto B los haces, en Proyecto A todavía no.</p>
+
+<div class="note">Un <code>CLAUDE.md</code> que configura skills <strong>no es</strong> el contexto del repo. El contexto es <code>AGENTS.md</code> (gordo, sirve para cualquier agente) y el <code>CLAUDE.md</code> es el puntero de una línea. Es la trampa que tiene Proyecto A hoy: parece documentado y está mudo.</div>
+
+<p>Tu victoria de hoy: la <a href="../reference/checklist-de-mision.html">checklist de misión</a>, una página imprimible con la apertura, el ciclo con su archivo por fase, y el cierre. Pégala al lado del monitor. La meta es botarla en tres misiones.</p>
+
+<p><strong>Qué leer:</strong> la sección <em>“Reglas de contexto”</em> de tu <a href="../../../PLAYBOOK.md">PLAYBOOK.md</a>. Son 10 líneas, 3 minutos. Es la parte que menos has practicado y la que más chats te va a ahorrar. Como fuente externa, las <a href="https://leomax.fyi/blog/matt-pocock-workflow-for-ai-coding/">notas de la charla de Pocock</a>, de donde salen esas reglas.</p>
+
+<footer class="lesson-footer">
+  <p>¿Alguna escena te pareció injusta? <strong>Discútela con el agente</strong>: puede defender la respuesta, darte la vuelta, o armarte otra misión (un proyecto desde cero, o un bug suelto que no necesita el ciclo). Y repórtale el puntaje: queda en tu learning record.</p>
+  <p><a href="0001-que-skill-cuando.html">Lección 0001</a> · <a href="../reference/checklist-de-mision.html">Checklist de misión</a> · <a href="../reference/que-skill-cuando.html">¿Qué skill cuándo?</a> · <a href="../../../HISTORIA.md">Historia del workflow</a></p>
+</footer>
+
+</div>
+
+<script src="../../assets/simulador.js"></script>
+<script>
+var mision = {
+  repoInicial: {
+    archivos: [
+      "README.md  (20 líneas)",
+      "CLAUDE.md  (config del issue tracker)",
+      "apps/planta/",
+      "apps/api/",
+      "packages/ui/"
+    ],
+    chat: 1,
+    tokens: 6,
+    fase: "Llegada"
+  },
+  escenas: [
+    {
+      titulo: "Día 1 — el repo ajeno",
+      situacion: "Clonas stock-planta y miras qué hay: código de dos años, un README de 20 líneas y un CLAUDE.md de 16 líneas que configura el issue tracker. Ningún otro documento. El cliente espera noticias. ¿Primer movimiento?",
+      opciones: [
+        { texto: "/audit — que el agente aprenda el repo",
+          consecuencia: "" },
+        { texto: "/grill-me — alinear qué quiere el cliente",
+          consecuencia: "Queda claro lo que quiere el cliente, pero el agente sigue ciego al repo: no sabe el stack, ni las convenciones, ni dónde vive nada. Cuando construya, va a inventar su propio estilo encima de dos años de código ajeno. Modo de fallo 4: bola de barro." },
+        { texto: "/scope — armar el plan de lo que falta",
+          consecuencia: "Escribes un plan sobre un repo que el agente no conoce. Sale desalineado con lo que el código ya hace: la mitad de lo que planeas ya existe y no te enteraste." },
+        { texto: "/develop — hay CLAUDE.md, hay contexto",
+          consecuencia: "Esa es la trampa: ese CLAUDE.md configura skills, no describe el repo. El agente arranca sin saber el stack ni las convenciones. Bola de barro, en el peor lugar: un repo en producción." }
+      ],
+      correcta: 0,
+      porque: "Repo existente = /audit primero, siempre. El agente aprende el repo y escribe AGENTS.md (stack + convenciones), el archivo que TODAS las skills leen después. Y ojo con lo que te tentó: un CLAUDE.md de configuración NO es el contexto del repo. Es justo el hueco que tiene Proyecto A hoy: parece documentado y está mudo.",
+      doble: true,
+      efecto: { tokens: 24, fase: "Contexto" }
+    },
+    {
+      titulo: "Lo que /audit deja escrito",
+      situacion: "El audit descubre algo: stock-planta es un monorepo pnpm con apps/planta (Next.js), apps/api (Fastify) y packages/ui. Cada workspace tiene sus propias convenciones. ¿Cómo debe quedar escrito el contexto?",
+      opciones: [
+        { texto: "AGENTS.md raíz + uno por workspace",
+          consecuencia: "" },
+        { texto: "Un solo AGENTS.md en la raíz del repo",
+          consecuencia: "El agente trabaja en apps/api leyendo convenciones pensadas para Next.js. Las reglas de un workspace se filtran al otro y el estilo se mezcla. El playbook pide AGENTS.md anidado justo por esto." },
+        { texto: "Un CLAUDE.md gordo en cada workspace",
+          consecuencia: "Amarras todo tu contexto a una sola herramienta. Si mañana abres el repo con otro agente, queda mudo. El gordo es AGENTS.md, que sirve para cualquiera; CLAUDE.md es solo el puntero." },
+        { texto: "Todo el contexto en docs/scope/ del repo",
+          consecuencia: "docs/scope es el QUÉ construir, no el contexto del repo. Guardaste la herramienta en el gabinete equivocado: el día que /develop busque convenciones, no las encuentra." }
+      ],
+      correcta: 0,
+      porque: "En monorepo el contexto va anidado: un AGENTS.md por workspace con su stack y sus convenciones, más el de la raíz. Y el patrón correcto es AGENTS.md gordo + CLAUDE.md de una línea apuntando a él. Ese patrón ya lo haces bien en Proyecto B (AGENTS.md de 518 líneas, CLAUDE.md de 1). Falta que viaje a los otros repos.",
+      efecto: {
+        quita: ["CLAUDE.md  (config del issue tracker)"],
+        agrega: ["AGENTS.md", "apps/planta/AGENTS.md", "apps/api/AGENTS.md", "CLAUDE.md  → 1 línea, apunta a AGENTS.md"],
+        tokens: 46, fase: "Contexto"
+      }
+    },
+    {
+      titulo: "El pedido vago",
+      situacion: "El cliente dice: 'quiero que me avise cuando un insumo baje del mínimo'. No dice a quién le avisa, ni cada cuánto se revisa, ni qué pasa si el insumo sigue bajo tres días seguidos. El repo, ahora sí, está documentado.",
+      opciones: [
+        { texto: "/grill-with-docs — interrogatorio con el repo",
+          consecuencia: "" },
+        { texto: "/architect — decidir y avisarle después",
+          consecuencia: "Decides tú algo que solo sabe el cliente (¿a quién le llega el correo?). Construyes algo impecable que nadie pidió. Modo de fallo 1: la brecha de comunicación, el problema número uno." },
+        { texto: "/scope — las dudas se ven en el plan",
+          consecuencia: "El plan hereda la ambigüedad en vez de resolverla: queda un scope que dice 'avisar' sin definir a quién ni cuándo. Alinear va antes de planificar. Un plan que nadie cuestionó no vale nada." },
+        { texto: "/develop — es una feature chica, arrancar",
+          consecuencia: "Tres sesiones después descubres que 'mínimo' significa una cosa para el cliente y otra para la tabla de la base. Eso no se ajusta: se rehace." }
+      ],
+      correcta: 0,
+      porque: "Alinear antes de planificar. Y con el repo ya documentado, la variante correcta es /grill-with-docs: además del interrogatorio arma el modelo de dominio en CONTEXT.md (¿qué es un 'insumo' aquí? ¿'mínimo' es un campo, un cálculo, una política?). /grill-me no habría sido un desastre, pero deja esa parte sin escribir.",
+      efecto: { agrega: ["CONTEXT.md"], tokens: 61, fase: "Alineación" }
+    },
+    {
+      titulo: "El QUÉ",
+      situacion: "Grilling cerrado. Los dos entienden lo mismo: correo al encargado de planta, revisión cada 15 minutos, y silencio de 24 horas para un insumo ya alertado. Toca volverlo plan. ¿Qué skill, y qué archivo queda escrito?",
+      opciones: [
+        { texto: "/scope → docs/scope/alertas-stock.md",
+          consecuencia: "" },
+        { texto: "/architect → docs/specs/alertas-stock/",
+          consecuencia: "Te saltas el QUÉ y vas directo al CÓMO. Terminas con una spec técnica preciosa, sin un plan que diga qué entra y qué no entra en esta tanda, y sin checklist que sobreviva al chat." },
+        { texto: "/document → docs/alertas-stock.md",
+          consecuencia: "/document escribe para humanos (PR, changelog) a partir de un diff que todavía no existe. No hay nada que documentar: no has construido nada." },
+        { texto: "/sync → AGENTS.md con lo acordado",
+          consecuencia: "/sync cierra una misión terminada, no abre una. Y AGENTS.md guarda cómo es el repo, no qué vas a construir en él." }
+      ],
+      correcta: 0,
+      porque: "/scope convierte lo acordado en un plan vivo del QUÉ, en docs/scope/. Es la checklist que puedes retomar desde cualquier chat: tu docs/scope/pulimiento-visual.md de Proyecto B es el ejemplo modelo. El CÓMO (cron, proveedor de correo, dónde se guarda el silencio) viene en la escena siguiente.",
+      efecto: { agrega: ["docs/scope/alertas-stock.md"], tokens: 72, fase: "Scope" }
+    },
+    {
+      titulo: "El CÓMO",
+      situacion: "El plan está listo. Quedan decisiones sin tomar y ninguna es barata de revertir: ¿cron cada 15 minutos o disparo al escribir el stock? ¿Resend o el SMTP del cliente? ¿El silencio de 24 horas vive en una tabla o en Redis?",
+      opciones: [
+        { texto: "/architect → spec en docs/specs/",
+          consecuencia: "" },
+        { texto: "/develop → que el agente elija bien",
+          consecuencia: "El agente elige por ti y no lo escribe en ningún lado. En tres semanas nadie sabe por qué hay un cron de 15 minutos, y el próximo chat decide lo contrario. Igual la skill se te planta: si detecta una decisión de peso sin tomar, se detiene y te manda a /architect." },
+        { texto: "/prototype → probar las dos variantes",
+          consecuencia: "Prototipar sirve cuando la duda es de diseño o de sensación ('¿este flujo se siente bien?'). Aquí la duda es una decisión que hay que tomar y sobre todo ESCRIBIR. El prototipo se bota y la decisión se pierde con él." },
+        { texto: "/scope → sumarlas al plan del QUÉ",
+          consecuencia: "Metes decisiones técnicas en el documento del QUÉ. El plan se ensucia y la spec nunca nace: el día que alguien pregunte '¿por qué Redis?', no hay dónde leerlo." }
+      ],
+      correcta: 0,
+      porque: "Decisiones de peso = /architect, y quedan escritas como spec en docs/specs/. Esa spec es lo que /develop lee para construir y lo que /check verify usa como criterio de aceptación. Que /develop se detenga y te mande aquí es una función, no un error.",
+      efecto: { agrega: ["docs/specs/alertas-stock/"], tokens: 84, fase: "Diseño" }
+    },
+    {
+      titulo: "Frontera de fase",
+      situacion: "Spec aprobada. Mira el panel: el chat va por 84k tokens y todo lo decidido está escrito (scope, spec, AGENTS.md, CONTEXT.md). Falta construir, que es la parte larga.",
+      opciones: [
+        { texto: "/clear y abrir chat nuevo para construir",
+          consecuencia: "" },
+        { texto: "/handoff y después abrir chat nuevo",
+          consecuencia: "No está mal, está de más. /handoff existe para rescatar contexto valioso que NO está en archivos. Aquí está todo escrito: pagas un documento de traspaso para que repita lo que ya dice el scope." },
+        { texto: "Seguir en el mismo chat, hay impulso",
+          consecuencia: "Entras a la fase más larga con 84k encima y llegas al tope a mitad de la construcción, justo cuando peor viene cortar. La atención del modelo ya se está degradando: los detalles de la spec empiezan a caerse." },
+        { texto: "/compact para liberar espacio y seguir",
+          consecuencia: "Último recurso, usado de primero. Lo comprimido degrada la calidad de lo que sigue. Y ni falta hacía: el estado ya vivía en los archivos." }
+      ],
+      correcta: 0,
+      porque: "Es el caso normal del workflow: si el estado ya vive en los archivos, /clear y chat nuevo. El chat nuevo levanta el contexto leyendo la spec, no arrastrando 84k de conversación. Orden de preferencia: seguir → /clear → /handoff → subagente → /compact.",
+      efecto: { chatNuevo: true, tokens: 5, fase: "Construcción" }
+    },
+    {
+      titulo: "Construcción",
+      situacion: "Chat nuevo, spec cargada. Hay una parte delicada: la lógica del silencio de 24 horas. Si se equivoca en un borde, el encargado recibe 96 correos al día y apaga las alertas para siempre.",
+      opciones: [
+        { texto: "/develop, pidiéndole /tdd en esa lógica",
+          consecuencia: "" },
+        { texto: "/develop y después /test de todo",
+          consecuencia: "Funciona, pero le das a la parte más riesgosa el mismo trato que al resto. Los tests escritos después tienden a confirmar lo que el código ya hace, incluidos sus bordes mal resueltos." },
+        { texto: "/tdd para la feature completa, entera",
+          consecuencia: "Pagas el peaje de escribir test primero hasta en el formulario de configuración. El playbook pide /tdd para la lógica delicada dentro del desarrollo, no como reemplazo del desarrollo." },
+        { texto: "/prototype de la lógica del silencio",
+          consecuencia: "El prototipo se bota, y esta lógica es de producción. Terminas botando el trabajo o, peor, mandando un descartable a producción." }
+      ],
+      correcta: 0,
+      porque: "/develop construye desde la spec leyendo AGENTS.md. Para la lógica delicada le pides /tdd DENTRO del desarrollo: el test se escribe primero y define qué significa exactamente 'ya avisé por este insumo'. /test es otra cosa y viene después: la suite de todo lo construido.",
+      efecto: { agrega: ["apps/api/src/alertas/", "apps/planta/app/alertas/"], tokens: 44, fase: "Construcción" }
+    },
+    {
+      titulo: "\"Listo\"",
+      situacion: "El agente dice que la feature está terminada, compila y no hay errores en consola. Tú todavía no has visto llegar un solo correo.",
+      opciones: [
+        { texto: "/check verify — manejar la app real",
+          consecuencia: "" },
+        { texto: "/check review — que lean el código nuevo",
+          consecuencia: "Revisas el papel antes que el producto. Un review puede aprobar código elegante que nunca manda el correo: el review lee, no ejecuta. Y si después verify falla, hay que rehacer el review." },
+        { texto: "/test — blindar contra regresiones ya",
+          consecuencia: "Blindas un comportamiento que todavía no sabes si es el correcto. Si la feature está mala, acabas de escribir tests que garantizan que siga mala." },
+        { texto: "/document — redactar el PR del cambio",
+          consecuencia: "Escribes el texto de algo que nadie probó. Y el diff todavía va a cambiar: documentar antes de verificar es documentar dos veces." }
+      ],
+      correcta: 0,
+      porque: "'Listo' según el agente no es 'funciona' (modo de fallo 3: el código no funciona). /check verify maneja la app real y prueba cada criterio de aceptación de la spec, uno por uno. Control de calidad sobre el producto antes de revisar el papel.",
+      efecto: { tokens: 58, fase: "Verificación" }
+    },
+    {
+      titulo: "El fallo",
+      situacion: "verify baja un insumo por debajo del mínimo y en un minuto llegan cuatro correos. El silencio de 24 horas no está silenciando nada y no tienes idea de por qué.",
+      opciones: [
+        { texto: "/debug — reproducir y buscar la causa",
+          consecuencia: "" },
+        { texto: "/develop — rehacer la lógica de silencio",
+          consecuencia: "Arreglas sin saber qué está roto: es adivinar con las manos en el código. Y si la causa estaba en el cron y no en la lógica, acabas de reescribir la parte sana." },
+        { texto: "/architect — repensar el diseño elegido",
+          consecuencia: "Botas una decisión de diseño por un bug que quizá sea una comparación de fechas mal hecha. Rediseñar antes de diagnosticar es el camino corto a reescribirlo todo." },
+        { texto: "/diagnosing-bugs — instrumentar a fondo",
+          consecuencia: "No es un error grave, es artillería adelantada: esa es la versión pesada, para bugs duros o problemas de rendimiento. Todavía no sabes si este se resiste. Empieza por /debug y escala si no cae." }
+      ],
+      correcta: 0,
+      porque: "Causa desconocida = /debug directo: reproduce → localiza → hipótesis → arreglo mínimo → test de regresión. Sin scope ni spec de por medio: es un desvío del ciclo que vuelve al mismo punto. Si el bug se resiste o es de rendimiento, ahí sí escalas a /diagnosing-bugs.",
+      efecto: { agrega: ["apps/api/src/alertas/silencio.test.ts"], tokens: 71, fase: "Verificación" }
+    },
+    {
+      titulo: "El informe",
+      situacion: "Arreglado y verificado otra vez: los 6 criterios de aceptación pasan. Queda el informe de la verificación (qué se probó, qué falló, cómo quedó). ¿Dónde vive ese archivo?",
+      opciones: [
+        { texto: "docs/reviews/ — la carpeta del ciclo",
+          consecuencia: "" },
+        { texto: "docs/verificacion-alertas-sep.md suelto",
+          consecuencia: "Funciona hoy y se pierde mañana. Es lo que pasó en Proyecto B: verificacion-completa-ago-2026.md y auditoria-las-40-31-08.md quedaron sueltos en docs/. El próximo chat no sabe dónde mirar, y tú tampoco en dos meses." },
+        { texto: "En el PR; el repo no necesita copia",
+          consecuencia: "El estado vive en los archivos del repo, nunca afuera. Un PR fusionado es historia de GitHub: ni /sync ni el próximo chat lo van a leer." },
+        { texto: "docs/specs/, al lado de la spec del cambio",
+          consecuencia: "Mezclas lo que se decidió construir con lo que se comprobó que funciona. La spec es el contrato; el informe es la evidencia. Gavetas distintas." }
+      ],
+      correcta: 0,
+      porque: "/check escribe en docs/reviews/, siempre. verify y review comparten carpeta: son las dos caras de la misma skill. Este es tu hueco #3: en Proyecto B los informes quedaron sueltos en docs/. Funciona, pero rompe la convención y el próximo chat no sabe dónde buscar. Tienes una decisión pendiente: adoptar docs/reviews/ o dejar tu variante escrita en el PLAYBOOK. Lo que no sirve es que dependa del día.",
+      doble: true,
+      efecto: { agrega: ["docs/reviews/0001-verify-alertas-stock.md"], tokens: 79, fase: "Verificación" }
+    },
+    {
+      titulo: "Los tres que faltan",
+      situacion: "La app funciona y está verificada. Es producción, así que va el ciclo completo: quedan tres pasos antes de que el PR esté listo. ¿En qué orden?",
+      opciones: [
+        { texto: "/test → /check review → /document",
+          consecuencia: "" },
+        { texto: "/check review → /test → /document",
+          consecuencia: "El review corre sobre código sin suite: el revisor no puede apoyarse en tests para juzgar los bordes. Y si pide cambios, los tests que escribas después nacen desactualizados." },
+        { texto: "/document → /test → /check review",
+          consecuencia: "Redactas el PR sobre un diff que todavía va a cambiar dos veces. /document escribe desde los commits y el diff REAL: por eso va de último." },
+        { texto: "/test → /document → /check review",
+          consecuencia: "Documentas antes de que un modelo nuevo mire el código. Si el review pide cambios, el changelog que escribiste ya miente." }
+      ],
+      correcta: 0,
+      porque: "Primero blindas lo construido (/test escribe la suite de lo que cambió), después lo mira un modelo NUEVO que no escribió ese código (/check review → docs/reviews/), y de último se redacta el texto para humanos desde el diff real (/document). El orden no es estético: cada paso usa la salida del anterior.",
+      efecto: { agrega: ["docs/reviews/0002-review-alertas-stock.md", "apps/api/src/alertas/*.test.ts"], tokens: 93, fase: "Cierre" }
+    },
+    {
+      titulo: "El cierre",
+      situacion: "PR fusionado, cliente contento. Son las 7:40 de la noche de un viernes, la misión terminó y el chat está gordo. Último movimiento antes de cerrar la laptop.",
+      opciones: [
+        { texto: "/sync, y ahí sí cerrar el chat",
+          consecuencia: "" },
+        { texto: "Cerrar el chat: la misión ya terminó",
+          consecuencia: "AGENTS.md sigue diciendo que la app no manda correos. El scope no marca la feature como hecha. La spec quedó como si no se hubiera construido nada. El próximo chat (o tú mismo en dos semanas) arranca con un mapa desactualizado. Es el Proyecto A de hoy: cero commits /sync." },
+        { texto: "/handoff para no perder este contexto",
+          consecuencia: "El handoff pasa contexto a un chat siguiente, pero no hay chat siguiente: la misión terminó. Lo que hay que actualizar es el repo, no otra conversación." },
+        { texto: "/document del cambio y cerrar ahí",
+          consecuencia: "Ya documentaste en el paso anterior, y documentar no reconcilia nada: el PR es para humanos, AGENTS.md y el scope son para el próximo agente. Te falta el cierre de la orden de trabajo." }
+      ],
+      correcta: 0,
+      porque: "/sync nunca se salta: reconcilia AGENTS.md con lo que el repo realmente es ahora, actualiza el scope y marca specs vencidas. Es el cierre de la orden de trabajo, lo que hace que el próximo chat arranque sabiendo. Tu hueco #2: en Proyecto B tienes 4 commits /sync:, en Proyecto A ninguno. El ritual se aplica donde lo aprendiste, todavía no en todas partes.",
+      doble: true,
+      efecto: {
+        agrega: ["AGENTS.md  ↻ actualizado", "docs/scope/alertas-stock.md  ✅ hecho"],
+        tokens: 96, fase: "Misión cerrada"
+      }
+    }
+  ]
+};
+
+renderSimulador(document.getElementById('sim'), mision);
+</script>
+</body>
+</html>

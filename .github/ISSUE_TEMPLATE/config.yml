@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Preguntas y conversación
+    url: https://github.com/sebastiansequeirab-rgb/ai-coding-workflow/discussions
+    about: Para dudas abiertas o contar cómo lo usas tú

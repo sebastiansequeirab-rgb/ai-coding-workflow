@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Activado con: git config core.hooksPath .githooks
+exec "$(git rev-parse --show-toplevel)/scripts/revisar-privacidad.sh"

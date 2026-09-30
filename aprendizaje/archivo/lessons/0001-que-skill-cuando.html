@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lección 0001 — ¿Qué skill uso cuándo?</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="page">
+
+<header class="lesson-header">
+  <p class="kicker">Lección 0001 · Workflow de AI Coding</p>
+  <h1>¿Qué skill uso cuándo?</h1>
+  <p class="lede">Doce situaciones reales. Escoge la skill correcta. Respuesta inmediata con el porqué.</p>
+</header>
+
+<h2>Lo único que necesitas saber antes</h2>
+
+<p>Tu workflow es una <strong>línea de producción</strong> con 10 estaciones y algunos desvíos. Cada estación existe para matar un modo de fallo concreto (los 4 de Pocock: desalineación, verborrea, código roto, bola de barro). Esta lección entrena <strong>una sola cosa</strong>: ante una situación, disparar la skill correcta sin pensarlo.</p>
+
+<p>La regla de oro para deducir cualquier respuesta: <em>¿qué archivo debe quedar escrito después de este paso?</em> Si la respuesta es <code>docs/scope/</code> es <span class="skill">/scope</span>; si es <code>docs/specs/</code> es <span class="skill">/architect</span>; si es <code>AGENTS.md</code> es <span class="skill">/audit</span> o <span class="skill">/sync</span>. El estado vive en los archivos, nunca en el chat.</p>
+
+<div class="note">No es examen: es <strong>práctica de memoria</strong>. El esfuerzo de recordar es justo lo que fija. Fallar aquí es ganar. Al final puedes repasar solo las que fallaste.</div>
+
+<h2>El quiz</h2>
+
+<div class="card">
+  <div class="quiz" id="quiz"></div>
+</div>
+
+<h2>Después del quiz</h2>
+
+<p>Tu victoria de hoy: el <a href="../reference/que-skill-cuando.html">cheatsheet de referencia</a>, el playbook comprimido en una página imprimible. Úsalo esta semana. La meta es dejar de necesitarlo.</p>
+
+<p><strong>Qué leer:</strong> tu propio <a href="../../../PLAYBOOK.md">PLAYBOOK.md</a>, solo la sección "El ciclo completo" (5 minutos). Como segunda fuente, las <a href="https://leomax.fyi/blog/matt-pocock-workflow-for-ai-coding/">notas de la charla de Matt Pocock</a>, de donde salen los 4 modos de fallo.</p>
+
+<footer class="lesson-footer">
+  <p>¿Algo no te cuadró? ¿Un escenario te pareció ambiguo? <strong>Pregúntale al agente</strong>: es tu profesor y puede profundizar en cualquier escenario o inventarte más. Siguiente lección: <a href="0002-mision-completa.html">el simulador de misión completa</a>.</p>
+  <p><a href="../reference/que-skill-cuando.html">Referencia: ¿qué skill cuándo?</a> · <a href="../reference/checklist-de-mision.html">Checklist de misión</a> · <a href="../../../HISTORIA.md">Historia del workflow</a></p>
+</footer>
+
+</div>
+
+<script src="../../assets/quiz.js"></script>
+<script>
+var escenarios = [
+  {
+    situacion: "Se te ocurrió una idea para una app nueva. Todavía no hay ni repo. Estás a punto de escribirle al agente '¿me construyes esto?'. ¿Qué va ANTES de cualquier otra cosa?",
+    opciones: ["/scope", "/grill-me", "/develop", "/architect"],
+    correcta: 1,
+    porque: "La brecha de comunicación es el problema #1 (Pocock, modo de fallo 1: 'el agente no hizo lo que yo quería'). Antes de planear o construir, dejas que el agente te interrogue hasta que los dos entiendan lo mismo. Se usa en CADA cambio, no solo al inicio."
+  },
+  {
+    situacion: "Terminó el grilling: tú y el agente entienden lo mismo. Ahora hay que convertir la idea en un plan de alto nivel de QUÉ construir. ¿Con qué?",
+    opciones: ["/architect", "/develop", "/scope", "/audit"],
+    correcta: 2,
+    porque: "/scope convierte la idea en un plan vivo en docs/scope/. Define el QUÉ; el CÓMO (stack, datos) viene después con /architect. Truco: cada fase se reconoce por el archivo que deja escrito."
+  },
+  {
+    situacion: "El plan dice 'app de hábitos con cuentas de usuario'. Falta decidir: ¿SQLite o Postgres? ¿Auth con qué? ¿Cómo se ve la pantalla principal? ¿Quién toma esas decisiones y las deja escritas?",
+    opciones: ["/develop", "/scope", "/document", "/architect"],
+    correcta: 3,
+    porque: "/architect toma las decisiones técnicas de peso (stack, modelo de datos, diseño de páginas) y las escribe como spec en docs/specs/. Si /develop encuentra una decisión importante sin tomar, se DETIENE y te manda aquí. Eso es una función, no un error."
+  },
+  {
+    situacion: "Abres por primera vez un repo con código existente que el agente nunca ha visto. No hay AGENTS.md ni documentación. ¿Primer paso?",
+    opciones: ["/audit", "/grill-me", "/check verify", "/develop"],
+    correcta: 0,
+    porque: "Repo existente = /audit primero: el agente aprende el repo y genera AGENTS.md (stack + convenciones), el archivo que todas las skills leen después. Se corre una sola vez por repo, o cuando falte contexto."
+  },
+  {
+    situacion: "Hay spec aprobada en docs/specs/ y AGENTS.md al día. Toca construir la feature. ¿Con qué?",
+    opciones: ["/prototype", "/develop", "/architect", "/tdd"],
+    correcta: 1,
+    porque: "/develop construye desde la spec, leyendo también AGENTS.md. /prototype es para pruebas descartables, y /tdd es una variante que le pides DENTRO del desarrollo cuando la lógica es delicada."
+  },
+  {
+    situacion: "/develop terminó y dice que la feature está lista. Tú todavía no has visto la app funcionando. ¿Qué sigue?",
+    opciones: ["/check review", "/document", "/check verify", "/test"],
+    correcta: 2,
+    porque: "Modo de fallo 3 de Pocock: 'el código no funciona'. /check verify maneja la app REAL y prueba cada criterio de aceptación. Control de calidad sobre el producto, no sobre el papel. El review del código viene después."
+  },
+  {
+    situacion: "La app funciona: /check verify pasó. Ahora quieres que lo que construiste quede protegido contra daños futuros. ¿Qué sigue?",
+    opciones: ["/test", "/tdd", "/check review", "/sync"],
+    correcta: 0,
+    porque: "/test escribe la suite de tests de lo recién construido (detecta solo los cambios sin commitear). /tdd es tests ANTES de construir, no después: aquí el código ya existe."
+  },
+  {
+    situacion: "Feature construida, verificada y con tests. Antes de armar el PR quieres que alguien que NO escribió el código lo revise. ¿Con qué?",
+    opciones: ["/check verify", "/document", "/sync", "/check review"],
+    correcta: 3,
+    porque: "/check review corre un code review senior con un modelo NUEVO que no escribió el código. El que lo escribió está sesgado a favor de su propia obra. verify prueba la app; review lee el código. Son las dos caras de /check."
+  },
+  {
+    situacion: "Review aprobado. Falta redactar el PR y la entrada del changelog para humanos. ¿Con qué?",
+    opciones: ["/sync", "/document", "/scope", "/handoff"],
+    correcta: 1,
+    porque: "/document escribe el texto para humanos (PR, changelog, notas de versión) desde los commits y el diff REAL, no desde tu memoria del chat. No toca código ni specs."
+  },
+  {
+    situacion: "PR enviado, misión terminada. Estás por cerrar el chat. El playbook dice que hay un paso que NUNCA se salta antes de cerrar. ¿Cuál?",
+    opciones: ["/handoff", "/document", "/sync", "/audit"],
+    correcta: 2,
+    porque: "/sync reconcilia AGENTS.md, el scope y marca specs vencidas. Es el cierre de la orden de trabajo: lo que mantiene el repo como fuente de verdad para el próximo chat. Un chat = una misión → /sync → cerrar."
+  },
+  {
+    situacion: "Estás usando la app y un botón lanza un error que no tiene sentido. No sabes la causa. No hace falta feature nueva, solo arreglarlo. ¿Por dónde entras?",
+    opciones: ["/develop", "/check verify", "/grill-me", "/debug"],
+    correcta: 3,
+    porque: "Bug suelto = /debug directo, SIN scope ni spec: reproduce → localiza → hipótesis → arreglo mínimo → test de regresión. (Si resulta ser un bug duro o de rendimiento, escalas a /diagnosing-bugs, la versión más instrumentada.)"
+  },
+  {
+    situacion: "Llevas un chat largo (~100k tokens) en plena exploración. Hay conclusiones valiosas que todavía NO están escritas en ningún archivo. Necesitas chat nuevo. ¿Con qué?",
+    opciones: ["/handoff", "/sync", "/compact", "/clear"],
+    correcta: 0,
+    porque: "/handoff genera el documento de traspaso ANTES de abrir chat nuevo: es justo para contexto valioso que aún no está en archivos. /clear perdería ese contexto (es el caso normal solo cuando TODO ya está escrito), y /compact es el último recurso."
+  }
+];
+
+renderQuiz(document.getElementById('quiz'), escenarios);
+</script>
+</body>
+</html>
