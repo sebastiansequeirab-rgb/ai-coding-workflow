@@ -61,6 +61,7 @@ _(vacío al 2026-09-30; aquí van las líneas que llegan desde los chats y desde
 | 2026-09-28 | Guía oficial de prompts de Opus 5.5 aplicada: regla de no pararse antes de tiempo y lista global de patrones de frontend a evitar. Lo demás ya se cumplía o es de API | `PLAYBOOK.md`, "Cómo pedirle a Opus 5.5"; `~/.claude/CLAUDE.md`, "Alcance" |
 | 2026-09-27 | Línea de estado muestra la carpeta (ya mostraba contexto y uso de sesión) | `~/.config/ccstatusline/settings.json`, render probado |
 | 2026-09-30 | Workflow publicado: repo público nuevo con instalador (`install.sh`), lo personal a `~/.claude/personal.md`, pre-commit de privacidad; el historial viejo queda en un repo privado | `docs/specs/0005`, `HISTORIA.md` |
+| 2026-09-30 | Guía para aplicar el workflow en un repo, con el mensaje del primer chat (diagnóstico por casos A-D) | `docs/guias/aplicar-en-un-repo.md` |
 
 ## Descartado
 

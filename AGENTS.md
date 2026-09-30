@@ -71,7 +71,7 @@ difíciles de revertir van a `docs/adr/`, misma numeración. Las del ciclo viejo
 | `HISTORIA.md` | Cómo llegó a ser: versiones, qué no sirvió, con evidencia. |
 | `global/` | Lo que `install.sh` pone en `~/.claude`: CLAUDE.md, settings.json, hooks, plantilla de personal.md. |
 | `scripts/`, `.githooks/` | Chequeo de privacidad y su pre-commit. |
-| `docs/guias/` | Procedimientos repetibles: limpiar un repo del ciclo viejo, probar el workflow. |
+| `docs/guias/` | Procedimientos repetibles: aplicar el workflow en un repo, limpiar uno del ciclo viejo, probar el workflow. |
 | `aprendizaje/` | Registros por sesión, recursos y los motores de lecciones. Tiene su propio AGENTS.md. Lo del ciclo viejo en `archivo/`. |
 
 ## Agent skills

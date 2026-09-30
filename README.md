@@ -32,7 +32,8 @@ cd ~/ai-coding-workflow
 ```
 
 Después, llena `~/.claude/personal.md`: tu idioma, quién eres y cuáles de tus repos tienen usuarios
-reales. Es tuyo y el instalador nunca lo pisa.
+reales. Es tuyo y el instalador nunca lo pisa. Luego, en cada proyecto, sigue
+[la guía para aplicarlo en un repo](docs/guias/aplicar-en-un-repo.md): trae el mensaje para el primer chat.
 
 | Qué | Dónde queda | Qué hace |
 |---|---|---|
@@ -57,7 +58,7 @@ Sin instalar nada, en este orden:
 2. [HISTORIA.md](HISTORIA.md): de un ciclo de 10 fases que frenaba a dos modos. Incluye lo que no sirvió.
 3. [PLAYBOOK, "Arranque liviano"](PLAYBOOK.md#arranque-liviano-2026-09-27): cómo bajar a la mitad
    los tokens con que arranca cada chat, medido paso a paso.
-4. [docs/guias/](docs/guias/): cómo limpiar un repo con un `AGENTS.md` gordo, y cómo probar el workflow.
+4. [docs/guias/](docs/guias/): cómo aplicarlo en un repo, cómo limpiar un repo con un `AGENTS.md` gordo, y cómo probar el workflow.
 5. [aprendizaje/](aprendizaje/): registros de cada sesión y lecciones interactivas. Se abren en el
    navegador, sin instalar nada.
 
