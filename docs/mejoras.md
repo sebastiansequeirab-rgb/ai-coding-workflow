@@ -25,6 +25,12 @@ _(vacío al 2026-09-30; aquí van las líneas que llegan desde los chats y desde
 | Desde | Qué | Evidencia | Estado |
 |---|---|---|---|
 | 2026-10-27 | Firecrawl: si en un mes no se usó ni una vez, archivar las 8 skills con `mv ~/.claude/skills/firecrawl* ~/.claude/skills-archive/` (pesan 1-2k por arranque) | `PLAYBOOK.md`, "Arranque liviano" | esperar la fecha |
+| 2026-10-02 | Configurar el modo `auto` (`autoMode.environment`) y reglas `allow` angostas por repo: hoy bloquea lo que las reglas aprueban | `docs/reviews/0005`, fricción 1 | propuesta, falta su OK |
+| 2026-10-02 | Regla para los comandos devueltos: carpeta, sin `!`, `npx`, reconstruir antes de publicar, verificar después | `docs/reviews/0005`, fricción 2 | propuesta |
+| 2026-10-02 | En planear y crear, la primera línea dice qué es (producción o demo, entorno) | `docs/reviews/0005`, fricción 4 | propuesta |
+| 2026-10-02 | Handoff: alinear `/handoff` con `docs/proximo-chat.md` y escribir en el PLAYBOOK las corridas largas en Fable | `docs/reviews/0005` | propuesta |
+| 2026-10-02 | Repos Expo: un cambio visual dice en qué plataformas se probó; datos de prueba solo en desarrollo | `docs/reviews/0005`, fricciones 3 y 5 | propuesta, va al AGENTS.md de cada repo |
+| 2026-10-02 | Alimentar el ajuste del viernes con `/insights` ("Observado" sigue vacío) | `docs/reviews/0005` | propuesta |
 | 2026-09-27 | `/sync` sigue sumando líneas sin podar y no captura aprendizajes puntuales. La spec 0003 quedó Superseded pero el problema sigue | `docs/specs/0003`, registro 0005 | idea: podar es trabajo de `/audit` o mío; lo puntual va a memoria |
 
 ## Ideas sin decidir
